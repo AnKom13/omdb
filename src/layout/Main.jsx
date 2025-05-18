@@ -4,7 +4,7 @@ import { Preloader } from '../components/Preloader';
 import { Search } from '../components/Search';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
-const entrance = 'http://www.omdbapi.com/?apikey=';
+const entrance = 'https://www.omdbapi.com/?apikey=';
 
 class Main extends React.Component {
   state = {
@@ -19,13 +19,21 @@ class Main extends React.Component {
       `${entrance}${API_KEY}&s=${str}${type !== 'all' ? `&type=${type}` : ''}`
     )
       .then((response) => response.json())
-      .then((data) => this.setState({ movies: data.Search, loading: false }));
+      .then((data) => this.setState({ movies: data.Search, loading: false }))
+      .catch((err) => {
+        console.error(err);
+        this.setState({ loading: false });
+      });
   };
 
   componentDidMount() {
     fetch(`${entrance}${API_KEY}&s=matrix`)
       .then((response) => response.json())
-      .then((data) => this.setState({ movies: data.Search, loading: false }));
+      .then((data) => this.setState({ movies: data.Search, loading: false }))
+      .catch((err) => {
+        console.error(err);
+        this.setState({ loading: false });
+      });
   }
 
   render() {
